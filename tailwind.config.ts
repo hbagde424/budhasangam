@@ -24,14 +24,19 @@ module.exports = {
           DEFAULT: "#FAF6EF",
           dark: "#F0E8D8",
         },
-        lotus: {
-          gold: "#D4AF37",
-          "gold-light": "#E8CE6A",
+        lotusGold: {
+          DEFAULT: "#D4AF37",
+          light: "#E8CE6A",
         },
         jade: {
           DEFAULT: "#2D6A4F",
           mid: "#40916C",
         },
+        roseGold: "#B76E79",
+        warmWhite: "#FEFCF8",
+        textDark: "#1A0D06",
+        textMid: "#5C3D2E",
+        textLight: "#9A7B6F",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",

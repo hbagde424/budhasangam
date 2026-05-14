@@ -2,6 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,600&family=Josefin+Sans:wght@300;400;500;600&family=Noto+Serif:ital,wght@0,400;0,700;1,400&display=swap');
+
 @layer base {
   :root {
     --background: 40 50% 97%;
@@ -25,15 +27,40 @@
     --ring: 28 80% 51%;
     --radius: 0.75rem;
   }
-}
 
-@layer base {
   * { @apply border-border; }
-  body { @apply bg-background text-foreground; }
+  body { 
+    @apply bg-background text-foreground;
+    font-family: 'Josefin Sans', sans-serif;
+  }
 
-  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar { width: 6px; }
   ::-webkit-scrollbar-track { @apply bg-ivory-dark; }
   ::-webkit-scrollbar-thumb { @apply bg-saffron rounded-full; }
+}
+
+@layer utilities {
+  .serif { font-family: 'Cormorant Garamond', serif; }
+  .noto { font-family: 'Noto Serif', serif; }
+  
+  .anim-fade-up { animation: fadeUp 0.6s ease forwards; }
+  .anim-fade-up-2 { animation: fadeUp 0.6s ease 0.1s forwards; opacity: 0; }
+  .anim-fade-up-3 { animation: fadeUp 0.6s ease 0.2s forwards; opacity: 0; }
+  .anim-fade-up-4 { animation: fadeUp 0.6s ease 0.3s forwards; opacity: 0; }
+  .anim-float { animation: float 4s ease-in-out infinite; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-8px); }
+  }
+  @keyframes shimmer {
+    0% { background-position: -200% center; }
+    100% { background-position: 200% center; }
+  }
 }
 
 @layer components {
@@ -41,8 +68,17 @@
     @apply bg-gradient-to-br from-saffron to-saffron-dark text-white font-semibold
            rounded-xl px-6 py-3 transition-all duration-300 cursor-pointer
            hover:shadow-lg hover:shadow-saffron/30 hover:-translate-y-0.5
-           active:translate-y-0 disabled:opacity-50 disabled:cursor-not-allowed;
+           active:translate-y-0 disabled:opacity-50 disabled:cursor-not-allowed
+           relative overflow-hidden;
   }
+
+  .btn-saffron::before {
+    content: '';
+    @apply absolute top-0 -left-full w-full h-full;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    transition: left 0.5s ease;
+  }
+  .btn-saffron:hover::before { @apply left-full; }
 
   .btn-outline-saffron {
     @apply border border-saffron text-saffron bg-transparent font-semibold
@@ -82,59 +118,28 @@
   }
 
   .premium-badge {
-    @apply inline-flex items-center gap-1 bg-gradient-to-r from-lotus-gold/10 to-saffron/10
+    @apply inline-flex items-center gap-1 bg-gradient-to-r from-lotusGold-light/10 to-saffron/10
            text-saffron-dark px-2 py-0.5 rounded-full text-xs font-bold
-           border border-lotus-gold/30;
+           border border-lotusGold/30;
   }
 
-  .compatibility-ring {
-    @apply relative inline-flex items-center justify-center;
+  .shimmer-text {
+    background: linear-gradient(90deg, #D4AF37, #E8CE6A, #E8821A, #D4AF37);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: shimmer 3s linear infinite;
   }
 
-  .tag {
-    @apply inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold
-           uppercase tracking-wide;
+  .lotus-divider {
+    @apply flex items-center gap-4 text-lotusGold;
   }
-
-  .sidebar-link {
-    @apply flex items-center gap-3 px-3 py-2.5 rounded-xl cursor-pointer
-           transition-all duration-200 text-sm font-medium text-mahogany-mid
-           hover:bg-ivory-dark hover:text-saffron;
-  }
-
-  .sidebar-link.active {
-    @apply bg-saffron/10 text-saffron font-semibold;
-  }
-
-  .chat-bubble-sent {
-    @apply bg-gradient-to-br from-saffron to-saffron-dark text-white
-           rounded-[18px_18px_4px_18px] px-4 py-2.5 max-w-[70%]
-           self-end text-sm shadow-sm shadow-saffron/20;
-  }
-
-  .chat-bubble-recv {
-    @apply bg-ivory-dark text-foreground
-           rounded-[18px_18px_18px_4px] px-4 py-2.5 max-w-[70%]
-           self-start text-sm;
-  }
-
-  .filter-chip {
-    @apply px-3 py-1.5 rounded-full border border-ivory-dark text-xs font-semibold
-           text-mahogany-mid bg-white cursor-pointer transition-all duration-200
-           hover:border-saffron hover:bg-saffron/5 hover:text-saffron;
-  }
-
-  .filter-chip.active {
-    @apply border-saffron bg-saffron/10 text-saffron;
-  }
-
-  .progress-bar {
-    @apply h-1.5 bg-ivory-dark rounded-full overflow-hidden;
-  }
-
-  .progress-fill {
-    @apply h-full bg-gradient-to-r from-saffron to-lotus-gold rounded-full
-           transition-all duration-500 ease-out;
+  .lotus-divider::before,
+  .lotus-divider::after {
+    content: '';
+    @apply flex-1 h-[1px];
+    background: linear-gradient(90deg, transparent, #D4AF37, transparent);
   }
 
   .glass {
@@ -147,29 +152,24 @@
       radial-gradient(circle at 80% 20%, rgba(212,175,55,0.06) 0%, transparent 50%),
       radial-gradient(circle at 60% 80%, rgba(45,106,79,0.04) 0%, transparent 50%);
   }
-}
 
-/* Shimmer text */
-.shimmer-text {
-  background: linear-gradient(90deg, #D4AF37, #E8CE6A, #E8821A, #D4AF37);
-  background-size: 200% auto;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  animation: shimmer 3s linear infinite;
-}
+  .sidebar-link {
+    @apply flex items-center gap-3 px-3 py-2.5 rounded-xl cursor-pointer
+           transition-all duration-200 text-sm font-medium text-textMid
+           hover:bg-ivory-dark hover:text-saffron;
+  }
 
-/* Lotus divider */
-.lotus-divider {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  color: #D4AF37;
-}
-.lotus-divider::before,
-.lotus-divider::after {
-  content: '';
-  flex: 1;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, #D4AF37, transparent);
+  .sidebar-link.active {
+    @apply bg-saffron/10 text-saffron font-semibold;
+  }
+
+  .filter-chip {
+    @apply px-3 py-1.5 rounded-full border border-ivory-dark text-xs font-semibold
+           text-textMid bg-white cursor-pointer transition-all duration-200
+           hover:border-saffron hover:bg-saffron/5 hover:text-saffron;
+  }
+
+  .filter-chip.active {
+    @apply border-saffron bg-saffron/10 text-saffron;
+  }
 }

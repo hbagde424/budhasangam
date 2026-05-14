@@ -51,11 +51,11 @@ export function BiodataForm({ initialData = {} }: { initialData?: any }) {
     ...initialData,
   });
 
-  const update = (k: string, v: any) => setForm(p => ({ ...p, [k]: v }));
+  const update = (k: string, v: any) => setForm((p: any) => ({ ...p, [k]: v }));
   const pct = Math.round((step / STEPS.length) * 100);
 
   const toggleHobby = (h: string) => {
-    setForm(p => ({
+    setForm((p: any) => ({
       ...p,
       hobbies: p.hobbies.includes(h) ? p.hobbies.filter((x: string) => x !== h) : [...p.hobbies, h],
     }));
